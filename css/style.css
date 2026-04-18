@@ -1,0 +1,38 @@
+/* تحسين الخطوط (اختياري) */
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* القسم الترحيبي */
+.hero-section {
+  background: linear-gradient(135deg, #0d6efd 0%, #0dcaf0 100%);
+  margin-bottom: 0;
+}
+
+/* خط تزييني تحت العناوين */
+.heading-line {
+  height: 3px;
+  width: 50px;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+/* تأثير عند المرور على كروت المنتجات */
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* إصلاح اتجاه الأيقونات في الأزرار */
+.bi-arrow-left {
+  margin-right: 8px;
+}
