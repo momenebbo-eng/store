@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>متجري | وجهتك الأولى للتسوق</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f0c29;
+      --secondary: #302b63;
+      --accent: #24243e;
+      --gold: #f5a623;
+      --gold-light: #ffd966;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--primary);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── Animated Background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(245,166,35,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(36,36,62,0.8) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(245,166,35,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      animation: bgMove 20s linear infinite;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(15, 12, 41, 0.85) !important;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 18px 0;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 12px 0;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+
+    .navbar-brand {
+      font-size: 1.7rem !important;
+      font-weight: 900 !important;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.75) !important;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 8px 16px !important;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--white) !important;
+      background: var(--glass);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 50%;
+      transform: translateX(50%);
+      width: 20px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    /* ── Buttons ── */
+    .btn-rounded { border-radius: 50px; padding: 10px 28px; font-weight: 600; }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--primary);
+      border: none;
+      font-weight: 700;
+      border-radius: 50px;
+      padding: 10px 28px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(245,166,35,0.3);
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(245,166,35,0.5);
+      color: var(--primary);
+    }
+
+    .btn-glass {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--white);
+      border-radius: 50px;
+      padding: 10px 28px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-glass:hover {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .btn-cart {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--white);
+      border-radius: 50px;
+      padding: 9px 20px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+    }
+
+    .btn-cart:hover {
+      background: rgba(245,166,35,0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ── Hero Section ── */
+    .hero-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      padding: 120px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+      50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(245,166,35,0.15);
+      border: 1px solid rgba(245,166,35,0.4);
+      color: var(--gold-light);
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+      animation: fadeInDown 0.8s ease both;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.9s ease 0.2s both;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+      font-weight: 400;
+      animation: fadeInUp 0.9s ease 0.35s both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.9s ease 0.5s both;
+    }
+
+    .btn-hero-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--primary);
+      border: none;
+      font-weight: 800;
+      font-size: 1.05rem;
+      border-radius: 50px;
+      padding: 14px 40px;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 30px rgba(245,166,35,0.35);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(245,166,35,0.55);
+      color: var(--primary);
+    }
+
+    .btn-hero-secondary {
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 1.05rem;
+      border-radius: 50px;
+      padding: 14px 40px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--glass);
+      border-color: rgba(255,255,255,0.3);
+      color: var(--white);
+      transform: translateY(-3px);
+    }
+
+    /* ── Stats ── */
+    .stats-section {
+      padding: 60px 0;
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+
+    /* ── Features ── */
+    .features-section {
+      padding: 100px 0;
+    }
+
+    .section-label {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-label .badge-small {
+      display: inline-block;
+      background: rgba(245,166,35,0.12);
+      border: 1px solid rgba(245,166,35,0.3);
+      color: var(--gold);
+      padding: 4px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .section-label h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .feature-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.35s ease;
+      backdrop-filter: blur(10px);
+      height: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(245,166,35,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 30px rgba(245,166,35,0.08);
+    }
+
+    .feature-icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, rgba(245,166,35,0.2), rgba(255,217,102,0.1));
+      border: 1px solid rgba(245,166,35,0.3);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 1.8rem;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon {
+      background: linear-gradient(135deg, rgba(245,166,35,0.35), rgba(255,217,102,0.2));
+      transform: scale(1.1);
+    }
+
+    .feature-card h5 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+
+    .feature-card p {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* ── CTA Banner ── */
+    .cta-section {
+      padding: 80px 0;
+    }
+
+    .cta-card {
+      background: linear-gradient(135deg, rgba(245,166,35,0.15), rgba(255,217,102,0.05));
+      border: 1px solid rgba(245,166,35,0.25);
+      border-radius: 28px;
+      padding: 70px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(245,166,35,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-card h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-card p {
+      color: rgba(255,255,255,0.6);
+      font-size: 1.05rem;
+      margin-bottom: 36px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--glass-border);
+      background: rgba(0,0,0,0.2);
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── Utility ── */
+    .hidden { display: none !important; }
+
+    /* ── Animations ── */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Cart Badge ── */
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      background: var(--gold);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 800;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section { padding: 100px 0 60px; min-height: auto; }
+      .stats-section .col-6 { border-bottom: 1px solid var(--glass-border); }
+      .feature-card { margin-bottom: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">🛍️ مـتجري</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="background:var(--glass);border-radius:10px;padding:8px 12px;">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+          <li class="nav-item"><a class="nav-link active" href="index.html">الرئيسية</a></li>
+          <li class="nav-item"><a class="nav-link" href="products.html">المنتجات</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">من نحن</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">اتصل بنا</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <a href="cart.html" class="btn-cart position-relative">
+            <i class="bi bi-bag3"></i> السلة
+            <span id="cartCount" class="cart-badge">0</span>
+          </a>
+          <div id="authLinks" class="d-flex gap-2">
+            <a href="login.html" class="btn-glass btn-rounded">دخول</a>
+            <a href="register.html" class="btn-gold btn-rounded">حساب جديد</a>
+          </div>
+          <div id="userBox" class="hidden">
+            <a href="profile.html" class="btn-glass btn-rounded" style="text-decoration:none;">
+              <i class="bi bi-person-circle"></i> <span id="userNameDisplay"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-badge">✨ وصلت تشكيلة الصيف الجديدة</div>
+      <h1 class="hero-title">
+        تسوق أحدث المنتجات<br>
+        <span class="highlight">بكل سهولة وثقة</span>
+      </h1>
+      <p class="hero-subtitle">
+        اكتشف تشكيلة واسعة من المنتجات بجودة عالية وأسعار تنافسية، مع توصيل سريع لكل مكان
+      </p>
+      <div class="hero-cta">
+        <a href="products.html" class="btn-hero-primary">ابدأ التسوق الآن</a>
+        <a href="about.html" class="btn-hero-secondary">تعرف علينا</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-section reveal">
+    <div class="container">
+      <div class="row g-0">
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <span class="stat-number">+5K</span>
+            <span class="stat-label">منتج متاح</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <span class="stat-number">+20K</span>
+            <span class="stat-label">عميل سعيد</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <span class="stat-number">48h</span>
+            <span class="stat-label">توصيل سريع</span>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-item">
+            <span class="stat-number">4.9★</span>
+            <span class="stat-label">تقييم العملاء</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-label reveal">
+        <span class="badge-small">لماذا متجري؟</span>
+        <h2>تجربة تسوق لا مثيل لها</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3 reveal" style="transition-delay:0.1s">
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h5>توصيل فائق السرعة</h5>
+            <p>نوصّل طلبك خلال 24 إلى 48 ساعة لأي مكان مع تتبع مباشر</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 reveal" style="transition-delay:0.2s">
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h5>دفع آمن 100%</h5>
+            <p>جميع معاملاتك محمية بأحدث تقنيات التشفير والحماية</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 reveal" style="transition-delay:0.3s">
+          <div class="feature-card">
+            <div class="feature-icon">🎁</div>
+            <h5>عروض حصرية</h5>
+            <p>استمتع بخصومات وعروض يومية لأعضاء المتجر المميزين</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 reveal" style="transition-delay:0.4s">
+          <div class="feature-card">
+            <div class="feature-icon">💬</div>
+            <h5>دعم على مدار الساعة</h5>
+            <p>فريق متخصص جاهز لمساعدتك في أي وقت ومن أي مكان</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card reveal">
+        <h2>جاهز تبدأ التسوق؟ 🛒</h2>
+        <p>انضم لأكثر من 20,000 عميل سعيد وتمتع بأفضل تجربة تسوق إلكتروني</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="products.html" class="btn-hero-primary">تصفح المنتجات</a>
+          <a href="register.html" class="btn-hero-secondary">إنشاء حساب مجاني</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2025 <a href="#">متجري</a> · جميع الحقوق محفوظة · صُنع بـ ❤️</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAlOn_7ErG74KXYhM25LApsZATjXA3PE-M",
+      authDomain: "mystore-6fd57.firebaseapp.com",
+      projectId: "myst6fd57",
+      storageBucket: "mystore-6fd57.firebasestorage.app",
+      messagingSenderId: "1075846308469",
+      appId: "1:1075846308469:web:3d097e4a3064ab33368e3c"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      const authLinks = document.getElementById('authLinks');
+      const userBox = document.getElementById('userBox');
+      const nameDisp = document.getElementById('userNameDisplay');
+      if (user) {
+        authLinks.classList.add('hidden');
+        userBox.classList.remove('hidden');
+        nameDisp.innerText = user.displayName || "الملف الشخصي";
+      } else {
+        authLinks.classList.remove('hidden');
+        userBox.classList.add('hidden');
+      }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Cart count
+    window.onload = () => {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cartCount').innerText = cart.length;
+    };
+  </script>
+</body>
+</html>

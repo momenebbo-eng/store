@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>المنتجات - متجري</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f0c29;
+      --secondary: #302b63;
+      --accent: #24243e;
+      --gold: #f5a623;
+      --gold-light: #ffd966;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--primary);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(245,166,35,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(36,36,62,0.8) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(245,166,35,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      animation: bgMove 20s linear infinite;
+    }
+
+    @keyframes bgMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 40px; }
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(15, 12, 41, 0.85) !important;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 18px 0;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 12px 0;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    }
+
+    .navbar-brand {
+      font-size: 1.7rem !important;
+      font-weight: 900 !important;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.75) !important;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 8px 16px !important;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--white) !important;
+      background: var(--glass);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 50%;
+      transform: translateX(50%);
+      width: 20px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    .btn-glass {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--white);
+      border-radius: 50px;
+      padding: 10px 28px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    .btn-glass:hover {
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--primary);
+      border: none;
+      font-weight: 700;
+      border-radius: 50px;
+      padding: 10px 28px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(245,166,35,0.3);
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(245,166,35,0.5);
+      color: var(--primary);
+    }
+
+    .btn-cart {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--white);
+      border-radius: 50px;
+      padding: 9px 20px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    .btn-cart:hover {
+      background: rgba(245,166,35,0.2);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      background: var(--gold);
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 800;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Page Header ── */
+    .page-header {
+      padding: 80px 0 50px;
+      text-align: center;
+      position: relative;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(245,166,35,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-badge {
+      display: inline-block;
+      background: rgba(245,166,35,0.12);
+      border: 1px solid rgba(245,166,35,0.4);
+      color: var(--gold-light);
+      padding: 5px 18px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+
+    .page-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      color: rgba(255,255,255,0.55);
+      font-size: 1rem;
+    }
+
+    /* ── Search ── */
+    .search-wrap {
+      position: relative;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      padding: 13px 48px 13px 24px;
+      color: var(--white);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .search-input::placeholder { color: rgba(255,255,255,0.35); }
+
+    .search-input:focus {
+      border-color: rgba(245,166,35,0.5);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
+    }
+
+    /* ── Category Filters ── */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+
+    .cat-btn {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: rgba(255,255,255,0.7);
+      border-radius: 50px;
+      padding: 9px 24px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .cat-btn:hover {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .cat-btn.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-color: transparent;
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 4px 20px rgba(245,166,35,0.35);
+    }
+
+    /* ── Product Cards ── */
+    .products-grid {
+      padding-bottom: 80px;
+    }
+
+    .product-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      backdrop-filter: blur(10px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(245,166,35,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.35), 0 0 30px rgba(245,166,35,0.08);
+    }
+
+    .product-img-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-img-wrap img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+
+    .product-card:hover .product-img-wrap img {
+      transform: scale(1.06);
+    }
+
+    .product-category-tag {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(15,12,41,0.85);
+      border: 1px solid var(--glass-border);
+      color: var(--gold-light);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+    }
+
+    .product-body {
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 18px;
+    }
+
+    .product-actions {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-add-cart {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      padding: 11px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(245,166,35,0.25);
+    }
+
+    .btn-add-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245,166,35,0.45);
+    }
+
+    .btn-details {
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      color: rgba(255,255,255,0.65);
+      border-radius: 50px;
+      padding: 9px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .btn-details:hover {
+      border-color: rgba(255,255,255,0.3);
+      color: var(--white);
+      background: var(--glass);
+    }
+
+    /* ── Empty State ── */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .empty-state i {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      display: block;
+      color: rgba(245,166,35,0.3);
+    }
+
+    .empty-state p { font-size: 1.05rem; }
+
+    /* ── Toast ── */
+    .toast-wrap {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .toast-msg {
+      background: rgba(15,12,41,0.95);
+      border: 1px solid rgba(245,166,35,0.4);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 768px) {
+      .product-img-wrap img { height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">🛍️ مـتجري</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        style="background:var(--glass);border-radius:10px;padding:8px 12px;">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">الرئيسية</a></li>
+          <li class="nav-item"><a class="nav-link active" href="products.html">المنتجات</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">من نحن</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">اتصل بنا</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <a href="cart.html" class="btn-cart position-relative">
+            <i class="bi bi-bag3"></i> السلة
+            <span id="cartCount" class="cart-badge">0</span>
+          </a>
+          <div id="authLinks" class="d-flex gap-2">
+            <a href="login.html" class="btn-glass">دخول</a>
+            <a href="register.html" class="btn-gold">حساب جديد</a>
+          </div>
+          <div id="userBox" class="hidden">
+            <a href="profile.html" class="btn-glass" style="text-decoration:none;">
+              <i class="bi bi-person-circle"></i> <span id="userNameDisplay"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header reveal">
+    <span class="page-badge">🛍️ تشكيلتنا الكاملة</span>
+    <h2>اكتشف منتجاتنا</h2>
+    <p>تصفح أحدث المنتجات وأفضل العروض</p>
+  </div>
+
+  <div class="container">
+    <!-- Search -->
+    <div class="search-wrap reveal">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن منتج..." oninput="filterByText()">
+    </div>
+
+    <!-- Filters -->
+    <div class="filters reveal">
+      <button class="cat-btn active" onclick="filter('all', this)">الكل</button>
+      <button class="cat-btn" onclick="filter('ملابس', this)">👕 ملابس</button>
+      <button class="cat-btn" onclick="filter('إلكترونيات', this)">📱 إلكترونيات</button>
+      <button class="cat-btn" onclick="filter('أحذية', this)">👟 أحذية</button>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="productsRow" class="row g-4 products-grid"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-wrap">
+    <div class="toast-msg" id="toastMsg"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAlOn_7ErG74KXYhM25LApsZATjXA3PE-M",
+      authDomain: "mystore-6fd57.firebaseapp.com",
+      projectId: "mystore-6fd57",
+      storageBucket: "mystore-6fd57.firebasestorage.app",
+      messagingSenderId: "1075846308469",
+      appId: "1:1075846308469:web:3d097e4a3064ab33368e3c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    window.isUserLoggedIn = false;
+
+    onAuthStateChanged(auth, (user) => {
+      const authLinks = document.getElementById('authLinks');
+      const userBox = document.getElementById('userBox');
+      const nameDisp = document.getElementById('userNameDisplay');
+      if (user) {
+        window.isUserLoggedIn = true;
+        authLinks.classList.add('hidden');
+        userBox.classList.remove('hidden');
+        nameDisp.innerText = user.displayName || "الملف الشخصي";
+      } else {
+        window.isUserLoggedIn = false;
+        authLinks.classList.remove('hidden');
+        userBox.classList.add('hidden');
+      }
+    });
+
+    const products = [
+      { id: 1, name: "هودي عصري", price: 45, category: "ملابس", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500" },
+      { id: 2, name: "ساعة ذكية Pro", price: 120, category: "إلكترونيات", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500" },
+      { id: 3, name: "تيشيرت قطن", price: 25, category: "ملابس", img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500" },
+      { id: 4, name: "حذاء رياضي", price: 80, category: "أحذية", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" }
+    ];
+
+    window.displayProducts = (list) => {
+      const row = document.getElementById('productsRow');
+      if (list.length === 0) {
+        row.innerHTML = `
+          <div class="col-12">
+            <div class="empty-state">
+              <i class="bi bi-search"></i>
+              <p>لا توجد منتجات تطابق بحثك</p>
+            </div>
+          </div>`;
+        return;
+      }
+      row.innerHTML = list.map((p, i) => `
+        <div class="col-md-4 col-sm-6" style="animation: fadeUp 0.5s ease ${i * 0.1}s both;">
+          <div class="product-card">
+            <div class="product-img-wrap">
+              <img src="${p.img}" alt="${p.name}" loading="lazy">
+              <span class="product-category-tag">${p.category}</span>
+            </div>
+            <div class="product-body">
+              <div class="product-name">${p.name}</div>
+              <div class="product-price">${p.price} $</div>
+              <div class="product-actions">
+                <button onclick="addToCart('${p.name}', ${p.price}, '${p.img}')" class="btn-add-cart">
+                  <i class="bi bi-bag-plus"></i> إضافة للسلة
+                </button>
+                <a href="product-details.html?name=${encodeURIComponent(p.name)}&price=${p.price}&img=${encodeURIComponent(p.img)}" class="btn-details">
+                  التفاصيل
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    };
+
+    window.filter = (cat, btn) => {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      if (cat === 'all') displayProducts(products);
+      else displayProducts(products.filter(p => p.category === cat));
+    };
+
+    window.filterByText = () => {
+      const text = document.getElementById('searchInput').value.toLowerCase();
+      displayProducts(products.filter(p => p.name.toLowerCase().includes(text)));
+    };
+
+    window.showToast = (msg) => {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    };
+
+    window.addToCart = (name, price, img) => {
+      if (!window.isUserLoggedIn) {
+        showToast('⚠️ يجب تسجيل الدخول أولاً!');
+        setTimeout(() => window.location.href = 'login.html', 1500);
+        return;
+      }
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ name, price, img });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      document.getElementById('cartCount').innerText = cart.length;
+      showToast(`✅ تمت إضافة ${name} للسلة!`);
+    };
+
+    // Scroll navbar
+    window.addEventListener('scroll', () => {
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    window.onload = () => {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      document.getElementById('cartCount').innerText = cart.length;
+      displayProducts(products);
+    };
+  </script>
+
+  <style>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</body>
+</html>

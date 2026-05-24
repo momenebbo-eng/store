@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>من نحن - متجري</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0f0c29;
+      --gold: #f5a623;
+      --gold-light: #ffd966;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Tajawal', sans-serif; background: var(--primary); color: var(--white); overflow-x: hidden; }
+
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse at 20% 20%, rgba(245,166,35,0.12) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 80%, rgba(36,36,62,0.8) 0%, transparent 50%),
+                  linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      z-index: -2;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(245,166,35,0.08) 1px, transparent 1px);
+      background-size: 40px 40px; z-index: -1;
+      animation: bgMove 20s linear infinite;
+    }
+    @keyframes bgMove { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+
+    /* Navbar */
+    .navbar { background: rgba(15,12,41,0.85) !important; backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); padding: 18px 0; transition: all 0.3s; }
+    .navbar.scrolled { padding: 12px 0; box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+    .navbar-brand { font-size: 1.7rem !important; font-weight: 900 !important; background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+    .nav-link { color: rgba(255,255,255,0.75) !important; font-weight: 500; padding: 8px 16px !important; border-radius: 8px; transition: all 0.25s; position: relative; }
+    .nav-link:hover, .nav-link.active { color: var(--white) !important; background: var(--glass); }
+    .nav-link.active::after { content: ''; position: absolute; bottom: 2px; right: 50%; transform: translateX(50%); width: 20px; height: 2px; background: var(--gold); border-radius: 2px; }
+    .btn-glass { background: var(--glass); border: 1px solid var(--glass-border); color: var(--white); border-radius: 50px; padding: 10px 28px; font-weight: 600; transition: all 0.3s; backdrop-filter: blur(10px); text-decoration: none; font-family: 'Tajawal', sans-serif; }
+    .btn-glass:hover { background: rgba(255,255,255,0.15); color: var(--white); }
+    .btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--primary); border: none; font-weight: 700; border-radius: 50px; padding: 10px 28px; transition: all 0.3s; box-shadow: 0 4px 20px rgba(245,166,35,0.3); font-family: 'Tajawal', sans-serif; text-decoration: none; }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,166,35,0.5); color: var(--primary); }
+    .btn-cart { background: var(--glass); border: 1px solid var(--glass-border); color: var(--white); border-radius: 50px; padding: 9px 20px; font-weight: 600; transition: all 0.3s; backdrop-filter: blur(10px); text-decoration: none; font-family: 'Tajawal', sans-serif; }
+    .btn-cart:hover { background: rgba(245,166,35,0.2); border-color: var(--gold); color: var(--gold); }
+    .cart-badge { position: absolute; top: -6px; left: -6px; background: var(--gold); color: var(--primary); font-size: 0.7rem; font-weight: 800; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .hidden { display: none !important; }
+
+    /* Hero */
+    .about-hero { padding: 90px 0 70px; text-align: center; position: relative; }
+    .about-hero::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 500px; height: 400px; background: radial-gradient(ellipse, rgba(245,166,35,0.1) 0%, transparent 70%); pointer-events: none; }
+    .hero-badge { display: inline-block; background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.4); color: var(--gold-light); padding: 5px 18px; border-radius: 50px; font-size: 0.88rem; margin-bottom: 18px; }
+    .about-hero h1 { font-size: clamp(2.2rem,5vw,3.5rem); font-weight: 900; margin-bottom: 16px; }
+    .about-hero p { color: rgba(255,255,255,0.55); font-size: 1.1rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+    /* Story */
+    .story-section { padding: 70px 0; }
+    .story-img-wrap { position: relative; }
+    .story-img-wrap img { width: 100%; border-radius: 24px; border: 1px solid var(--glass-border); object-fit: cover; height: 380px; }
+    .story-img-wrap::after { content: ''; position: absolute; inset: -8px; border-radius: 28px; border: 1px solid rgba(245,166,35,0.2); pointer-events: none; }
+    .story-label { display: inline-block; background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.3); color: var(--gold); font-size: 0.85rem; padding: 4px 14px; border-radius: 50px; margin-bottom: 16px; }
+    .story-section h2 { font-size: clamp(1.7rem,3.5vw,2.4rem); font-weight: 900; margin-bottom: 18px; }
+    .story-section p { color: rgba(255,255,255,0.58); font-size: 1rem; line-height: 1.8; margin-bottom: 14px; }
+
+    /* Features */
+    .features-section { padding: 70px 0; }
+    .section-center { text-align: center; margin-bottom: 50px; }
+    .section-center .badge-sm { display: inline-block; background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.3); color: var(--gold); font-size: 0.85rem; padding: 4px 14px; border-radius: 50px; margin-bottom: 14px; }
+    .section-center h2 { font-size: clamp(1.6rem,3vw,2.3rem); font-weight: 800; }
+
+    .feat-card { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 20px; padding: 34px 26px; text-align: center; transition: all 0.35s; backdrop-filter: blur(10px); height: 100%; }
+    .feat-card:hover { transform: translateY(-8px); border-color: rgba(245,166,35,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.3), 0 0 25px rgba(245,166,35,0.07); }
+    .feat-icon { width: 70px; height: 70px; background: linear-gradient(135deg, rgba(245,166,35,0.18), rgba(255,217,102,0.08)); border: 1px solid rgba(245,166,35,0.3); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; font-size: 1.7rem; color: var(--gold); transition: all 0.3s; }
+    .feat-card:hover .feat-icon { transform: scale(1.1); background: linear-gradient(135deg, rgba(245,166,35,0.3), rgba(255,217,102,0.15)); }
+    .feat-card h5 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .feat-card p { color: rgba(255,255,255,0.52); font-size: 0.93rem; line-height: 1.7; }
+
+    /* Stats */
+    .stats-section { padding: 60px 0; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); background: rgba(255,255,255,0.02); }
+    .stat-item { text-align: center; padding: 20px; }
+    .stat-number { font-size: 2.4rem; font-weight: 900; background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: block; line-height: 1; margin-bottom: 8px; }
+    .stat-label { color: rgba(255,255,255,0.5); font-size: 0.93rem; }
+
+    /* CTA */
+    .cta-section { padding: 70px 0; }
+    .cta-box { background: linear-gradient(135deg, rgba(245,166,35,0.12), rgba(255,217,102,0.04)); border: 1px solid rgba(245,166,35,0.22); border-radius: 28px; padding: 60px 40px; text-align: center; }
+    .cta-box h2 { font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 800; margin-bottom: 12px; }
+    .cta-box p { color: rgba(255,255,255,0.55); font-size: 1rem; margin-bottom: 32px; }
+
+    /* Footer */
+    footer { padding: 36px 0; border-top: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); text-align: center; color: rgba(255,255,255,0.35); font-size: 0.88rem; }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">🛍️ مـتجري</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="background:var(--glass);border-radius:10px;padding:8px 12px;">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">الرئيسية</a></li>
+          <li class="nav-item"><a class="nav-link" href="products.html">المنتجات</a></li>
+          <li class="nav-item"><a class="nav-link active" href="about.html">من نحن</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">اتصل بنا</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <a href="cart.html" class="btn-cart position-relative">
+            <i class="bi bi-bag3"></i> السلة
+            <span id="cartCount" class="cart-badge">0</span>
+          </a>
+          <div id="authLinks" class="d-flex gap-2">
+            <a href="login.html" class="btn-glass">دخول</a>
+            <a href="register.html" class="btn-gold">حساب جديد</a>
+          </div>
+          <div id="userBox" class="hidden">
+            <a href="profile.html" class="btn-glass" style="text-decoration:none;">
+              <i class="bi bi-person-circle"></i> <span id="userNameDisplay"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="about-hero">
+    <div class="container">
+      <span class="hero-badge">🏪 قصتنا</span>
+      <h1>تعرف علينا أكثر</h1>
+      <p>نحن هنا لنغير مفهوم التسوق عبر الإنترنت بمنتجات أصلية وتجربة مستخدم لا مثيل لها</p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-section reveal">
+    <div class="container">
+      <div class="row g-0">
+        <div class="col-6 col-md-3"><div class="stat-item"><span class="stat-number">2025</span><span class="stat-label">سنة التأسيس</span></div></div>
+        <div class="col-6 col-md-3"><div class="stat-item"><span class="stat-number">+20K</span><span class="stat-label">عميل سعيد</span></div></div>
+        <div class="col-6 col-md-3"><div class="stat-item"><span class="stat-number">+5K</span><span class="stat-label">منتج متاح</span></div></div>
+        <div class="col-6 col-md-3"><div class="stat-item"><span class="stat-number">4.9★</span><span class="stat-label">متوسط التقييم</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="story-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6 reveal">
+          <div class="story-img-wrap">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&auto=format&fit=crop" alt="قصتنا">
+          </div>
+        </div>
+        <div class="col-lg-6 reveal" style="transition-delay:0.15s">
+          <span class="story-label">✨ قصة نجاحنا</span>
+          <h2>من فكرة بسيطة إلى وجهة الآلاف</h2>
+          <p>بدأنا كفكرة بسيطة في عام 2025 لتقديم منتجات مميزة، واليوم نحن فخورون بأننا أصبحنا وجهة الآلاف من العملاء الذين يثقون في جودة ما نقدمه.</p>
+          <p>نحن نؤمن أن التميز يكمن في التفاصيل، لذلك نحرص على اختيار كل قطعة في متجرنا بعناية فائقة لتناسب ذائقتكم الرفيعة، سواء كانت إلكترونيات، أزياء، أو أحذية.</p>
+          <div class="mt-4">
+            <a href="products.html" class="btn-gold" style="display:inline-block;padding:13px 36px;font-size:1rem;">ابدأ التسوق الآن</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features-section">
+    <div class="container">
+      <div class="section-center reveal">
+        <span class="badge-sm">لماذا متجرنا؟</span>
+        <h2>نسعى دائماً لتقديم الأفضل</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 reveal" style="transition-delay:0.1s">
+          <div class="feat-card">
+            <div class="feat-icon"><i class="bi bi-shield-check"></i></div>
+            <h5>جودة مضمونة</h5>
+            <p>جميع منتجاتنا أصلية وتخضع لمعايير فحص دقيقة قبل وصولها إليك.</p>
+          </div>
+        </div>
+        <div class="col-md-4 reveal" style="transition-delay:0.2s">
+          <div class="feat-card">
+            <div class="feat-icon"><i class="bi bi-truck"></i></div>
+            <h5>شحن سريع وآمن</h5>
+            <p>نعمل مع أفضل شركات الشحن لضمان وصول طلبك في أسرع وقت ممكن.</p>
+          </div>
+        </div>
+        <div class="col-md-4 reveal" style="transition-delay:0.3s">
+          <div class="feat-card">
+            <div class="feat-icon"><i class="bi bi-headset"></i></div>
+            <h5>دعم 24/7</h5>
+            <p>فريقنا متاح دائماً للإجابة على استفساراتكم ومساعدتكم في أي وقت.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-box reveal">
+        <h2>مستعد تبدأ التسوق؟ 🛒</h2>
+        <p>انضم لأكثر من 20,000 عميل سعيد وتمتع بأفضل تجربة تسوق</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="products.html" class="btn-gold" style="display:inline-block;padding:13px 36px;">تصفح المنتجات</a>
+          <a href="contact.html" class="btn-glass" style="display:inline-block;padding:13px 36px;">تواصل معنا</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 <a href="#">متجري</a> · جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    const firebaseConfig = { apiKey: "AIzaSyAlOn_7ErG74KXYhM25LApsZATjXA3PE-M", authDomain: "mystore-6fd57.firebaseapp.com", projectId: "mystore-6fd57", storageBucket: "mystore-6fd57.firebasestorage.app", messagingSenderId: "1075846308469", appId: "1:1075846308469:web:3d097e4a3064ab33368e3c" };
+    initializeApp(firebaseConfig);
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      const authLinks = document.getElementById('authLinks');
+      const userBox = document.getElementById('userBox');
+      const nameDisp = document.getElementById('userNameDisplay');
+      if (user) { authLinks.classList.add('hidden'); userBox.classList.remove('hidden'); nameDisp.innerText = user.displayName || "الملف الشخصي"; }
+      else { authLinks.classList.remove('hidden'); userBox.classList.add('hidden'); }
+    });
+  </script>
+  <script>
+    window.addEventListener('scroll', () => { document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50); });
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    window.onload = () => { let cart = JSON.parse(localStorage.getItem('cart')) || []; document.getElementById('cartCount').innerText = cart.length; };
+  </script>
+</body>
+</html>

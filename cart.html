@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>سلة المشتريات - متجري</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    :root {
+      --primary: #0f0c29;
+      --secondary: #302b63;
+      --accent: #24243e;
+      --gold: #f5a623;
+      --gold-light: #ffd966;
+      --white: #ffffff;
+      --glass: rgba(255,255,255,0.07);
+      --glass-border: rgba(255,255,255,0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--primary);
+      color: var(--white);
+      overflow-x: hidden;
+      padding-bottom: 60px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(245,166,35,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(36,36,62,0.8) 0%, transparent 50%),
+        linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(245,166,35,0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      animation: bgMove 20s linear infinite;
+    }
+
+    @keyframes bgMove { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: rgba(15,12,41,0.85) !important;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 18px 0;
+    }
+
+    .navbar-brand {
+      font-size: 1.7rem !important;
+      font-weight: 900 !important;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .btn-back {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--white);
+      border-radius: 50px;
+      padding: 9px 22px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-back:hover { background: rgba(255,255,255,0.14); color: var(--white); }
+
+    /* ── Page Title ── */
+    .page-header { padding: 50px 0 30px; }
+    .page-header h2 { font-size: 2rem; font-weight: 900; }
+    .page-header p  { color: rgba(255,255,255,0.45); font-size: 0.95rem; margin-top: 4px; }
+
+    /* ── Glass Panel ── */
+    .glass-panel {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      backdrop-filter: blur(12px);
+      padding: 30px;
+    }
+
+    /* ── Cart Table ── */
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-clear {
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: #fca5a5;
+      border-radius: 50px;
+      padding: 6px 18px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-clear:hover { background: rgba(239,68,68,0.22); border-color: rgba(239,68,68,0.5); }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .cart-item:last-child { border-bottom: none; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    .item-img {
+      width: 64px; height: 64px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      flex-shrink: 0;
+    }
+
+    .item-info { flex: 1; }
+    .item-name  { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .item-price {
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn-remove {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #fca5a5;
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+
+    .btn-remove:hover { background: rgba(239,68,68,0.25); border-color: rgba(239,68,68,0.5); transform: scale(1.1); }
+
+    /* ── Total Row ── */
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      margin-top: 4px;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .total-label { font-size: 1.05rem; font-weight: 700; color: rgba(255,255,255,0.75); }
+
+    .total-value {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Empty State ── */
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .empty-cart i { font-size: 3.5rem; color: rgba(245,166,35,0.25); margin-bottom: 16px; display: block; }
+    .empty-cart p { font-size: 1.05rem; margin-bottom: 20px; }
+    .empty-cart a {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--primary);
+      border-radius: 50px;
+      padding: 11px 30px;
+      font-weight: 700;
+      text-decoration: none;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    /* ── Checkout Form ── */
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 8px;
+    }
+
+    .input-wrap { position: relative; margin-bottom: 18px; }
+
+    .input-icon {
+      position: absolute;
+      right: 16px; top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.3);
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: color 0.3s;
+    }
+
+    .textarea-icon { top: 16px; transform: none; }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 13px 44px 13px 16px;
+      color: var(--white);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      resize: none;
+    }
+
+    .form-input::placeholder { color: rgba(255,255,255,0.22); }
+
+    .form-input:focus {
+      border-color: rgba(245,166,35,0.55);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(245,166,35,0.12);
+    }
+
+    .input-wrap:focus-within .input-icon { color: var(--gold); }
+
+    .btn-order {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      padding: 15px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 24px rgba(245,166,35,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .btn-order:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(245,166,35,0.5); }
+    .btn-order:active { transform: translateY(0); }
+    .btn-order.loading { opacity: 0.8; pointer-events: none; }
+
+    /* ── Toast ── */
+    .toast-wrap { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none; }
+
+    .toast-msg {
+      background: rgba(15,12,41,0.95);
+      border: 1px solid rgba(245,166,35,0.4);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.4s ease;
+      white-space: nowrap;
+    }
+
+    .toast-msg.show { opacity: 1; transform: translateY(0); }
+
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    /* ── Confirm Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.show { opacity: 1; pointer-events: all; }
+
+    .modal-box {
+      background: #1a1535;
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 40px 36px;
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.show .modal-box { transform: scale(1); }
+
+    .modal-box h4 { font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; }
+    .modal-box p  { color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 28px; }
+
+    .modal-actions { display: flex; gap: 12px; justify-content: center; }
+
+    .btn-modal-confirm {
+      background: linear-gradient(135deg, #ef4444, #f87171);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 28px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-modal-confirm:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(239,68,68,0.4); }
+
+    .btn-modal-cancel {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: rgba(255,255,255,0.7);
+      border-radius: 50px;
+      padding: 10px 28px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-modal-cancel:hover { background: rgba(255,255,255,0.12); }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a class="navbar-brand" href="index.html">🛍️ مـتجري</a>
+      <a href="products.html" class="btn-back"><i class="bi bi-arrow-right"></i> العودة للتسوق</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h2>سلة المشتريات 🛒</h2>
+      <p>راجع طلبك وأتمّ عملية الشراء</p>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Cart Items -->
+      <div class="col-lg-7">
+        <div class="glass-panel">
+          <div class="section-title">
+            <span>المنتجات المختارة</span>
+            <button class="btn-clear" id="clearCartBtn">
+              <i class="bi bi-trash3"></i> مسح السلة
+            </button>
+          </div>
+
+          <div id="cartItems"></div>
+
+          <div class="total-row" id="totalRow" style="display:none!important">
+            <span class="total-label">الإجمالي</span>
+            <span class="total-value"><span id="totalPrice">0</span> $</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Form -->
+      <div class="col-lg-5">
+        <div class="glass-panel">
+          <div class="section-title" style="justify-content:flex-start;gap:10px">
+            <i class="bi bi-truck" style="color:var(--gold)"></i>
+            <span>بيانات الشحن</span>
+          </div>
+
+          <div class="input-wrap">
+            <label class="form-label">الاسم بالكامل</label>
+            <div style="position:relative">
+              <input type="text" id="custName" class="form-input" placeholder="أدخل اسمك" required>
+              <i class="bi bi-person input-icon"></i>
+            </div>
+          </div>
+
+          <div class="input-wrap">
+            <label class="form-label">رقم الهاتف</label>
+            <div style="position:relative">
+              <input type="tel" id="custPhone" class="form-input" placeholder="01xxxxxxxxx" required>
+              <i class="bi bi-phone input-icon"></i>
+            </div>
+          </div>
+
+          <div class="input-wrap">
+            <label class="form-label">العنوان بالتفصيل</label>
+            <div style="position:relative">
+              <textarea id="custAddress" class="form-input" rows="3" placeholder="المحافظة، الحي، الشارع..." required></textarea>
+              <i class="bi bi-geo-alt input-icon textarea-icon"></i>
+            </div>
+          </div>
+
+          <button class="btn-order" id="submitBtn" onclick="submitOrder()">
+            <i class="bi bi-check-circle-fill"></i>
+            إتمام الطلب
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <h4>⚠️ مسح السلة</h4>
+      <p>هتمسح كل المنتجات من السلة، مش هترجعلك!</p>
+      <div class="modal-actions">
+        <button class="btn-modal-confirm" onclick="confirmClear()">امسح</button>
+        <button class="btn-modal-cancel" onclick="closeModal()">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-wrap">
+    <div class="toast-msg" id="toastMsg"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    emailjs.init("IuxryG7bfg4phX9OO");
+
+    function showToast(msg) {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const container = document.getElementById('cartItems');
+      const totalRow  = document.getElementById('totalRow');
+      const totalSpan = document.getElementById('totalPrice');
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div class="empty-cart">
+            <i class="bi bi-bag-x"></i>
+            <p>السلة فارغة حالياً</p>
+            <a href="products.html">تسوق دلوقتي</a>
+          </div>`;
+        totalRow.style.display = 'none';
+        return;
+      }
+
+      let total = 0;
+      container.innerHTML = cart.map((item, i) => {
+        total += Number(item.price);
+        return `
+          <div class="cart-item" style="animation-delay:${i * 0.07}s">
+            <img src="${item.img || 'https://via.placeholder.com/64'}" class="item-img" alt="${item.name}">
+            <div class="item-info">
+              <div class="item-name">${item.name}</div>
+              <div class="item-price">${item.price} $</div>
+            </div>
+            <button class="btn-remove" onclick="removeItem(${i})" title="حذف">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>`;
+      }).join('');
+
+      totalSpan.textContent = total.toFixed(2);
+      totalRow.style.removeProperty('display');
+    }
+
+    window.removeItem = (index) => {
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const removed = cart[index].name;
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+      showToast(`🗑️ تم حذف "${removed}"`);
+    };
+
+    // Modal for clear cart
+    document.getElementById('clearCartBtn').onclick = () => {
+      document.getElementById('confirmModal').classList.add('show');
+    };
+
+    window.closeModal = () => {
+      document.getElementById('confirmModal').classList.remove('show');
+    };
+
+    window.confirmClear = () => {
+      localStorage.removeItem('cart');
+      loadCart();
+      closeModal();
+      showToast('🗑️ تم مسح السلة بالكامل');
+    };
+
+    document.getElementById('confirmModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Submit order
+    window.submitOrder = () => {
+      const cart    = JSON.parse(localStorage.getItem('cart') || '[]');
+      const name    = document.getElementById('custName').value.trim();
+      const phone   = document.getElementById('custPhone').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const btn     = document.getElementById('submitBtn');
+
+      if (cart.length === 0) { showToast('⚠️ السلة فارغة!'); return; }
+      if (!name || !phone || !address) { showToast('⚠️ من فضلك اكمل بيانات الشحن'); return; }
+
+      btn.classList.add('loading');
+      btn.innerHTML = '<i class="bi bi-arrow-repeat" style="animation:spin .8s linear infinite"></i> جاري الإرسال...';
+
+      const orderDetails = cart.map((item, i) => `${i+1}. ${item.name} (${item.price} $)`).join('\n');
+      const total = cart.reduce((s, i) => s + Number(i.price), 0).toFixed(2);
+
+      emailjs.send('service_hyrn654', 'template_p5x4sxy', {
+        customer_name:  name,
+        customer_phone: phone,
+        address:        address,
+        order_details:  orderDetails,
+        total_price:    total + ' $'
+      }).then(() => {
+        localStorage.removeItem('cart');
+        showToast('✅ تم إرسال طلبك بنجاح! سيتم التواصل معك قريباً');
+        setTimeout(() => window.location.href = 'index.html', 2000);
+      }, (err) => {
+        btn.classList.remove('loading');
+        btn.innerHTML = '<i class="bi bi-check-circle-fill"></i> إتمام الطلب';
+        showToast('❌ فشل الإرسال، حاول تاني');
+        console.error(err);
+      });
+    };
+
+    window.onload = loadCart;
+  </script>
+</body>
+</html>
